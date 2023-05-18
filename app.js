@@ -24,5 +24,9 @@ require('./config/passport')(passport);
 // Routes
 app.use('/api', routes);
 
+app.get('/', (req, res) => {
+  res.send("The Server is running");
+})
+
 const PORT = process.env.PORT || 3000; 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
