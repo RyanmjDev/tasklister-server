@@ -12,8 +12,21 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
   .then(() => console.log('MongoDB connected.'))
   .catch(err => console.log(err));
 
+const whitelist = [' http://localhost:5173/',  'http://localhost:5174/',
+'https://ryandev-tasklister.netlify.app/'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
 
-app.use(cors({ origin: 'http://localhost:5174', credentials: true }));
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
